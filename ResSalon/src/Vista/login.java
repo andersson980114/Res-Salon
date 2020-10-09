@@ -5,20 +5,31 @@
  */
 package Vista;
 
-import Vista.admin.admPrimcipal;
+import Logica.usuarioLogica;
+import Modelo.Usuario;
+import Vista.Funcionario.funPrincipal;
+import Vista.Profesor.proPrincipal;
+import Vista.Vigilante.VigPrincipal;
+import Vista.admin.admPrincipal;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ander
  */
 public class login extends javax.swing.JFrame {
-
+    
+    private usuarioLogica usuarioLogica = new usuarioLogica();
+    Usuario usuarioConsulta;
   
     /**
      * Creates new form login
      */
     public login() {
         initComponents();
+        eventoTeclado();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
@@ -34,8 +45,8 @@ public class login extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        codigoUsuario = new javax.swing.JTextField();
+        Contraseña = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -52,9 +63,9 @@ public class login extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/recurso/logo univalle.png"))); // NOI18N
         jLabel2.setPreferredSize(new java.awt.Dimension(260, 1261));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        codigoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                codigoUsuarioActionPerformed(evt);
             }
         });
 
@@ -64,6 +75,11 @@ public class login extends javax.swing.JFrame {
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
+            }
+        });
+        btnLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnLoginKeyPressed(evt);
             }
         });
 
@@ -103,9 +119,9 @@ public class login extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(38, 38, 38)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                                    .addComponent(codigoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jPasswordField1)
+                                    .addComponent(Contraseña)
                                     .addComponent(jLabel1)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(89, 89, 89)
@@ -134,11 +150,11 @@ public class login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(codigoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -158,9 +174,9 @@ public class login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void codigoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_codigoUsuarioActionPerformed
 
     private void cerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarMouseClicked
         dispose();
@@ -169,11 +185,81 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_cerrarMouseClicked
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-       admPrimcipal admhome = new admPrimcipal ();
-       dispose();         
-       admhome.setVisible(true);
+       iniciar();
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    
+    
+    private void iniciar(){
+        admPrincipal admhome; 
+       VigPrincipal vigHome;
+       proPrincipal proHome;
+       funPrincipal funHome;
+       int opcion = Integer.parseInt(codigoUsuario.getText()) ;
+       
+       usuarioConsulta = usuarioLogica.consultarUsuario(Integer.parseInt(codigoUsuario.getText()));
+       String contraseña = Contraseña.getText();
+        if(usuarioConsulta != null){
+            if(contraseña.equals(usuarioConsulta.getContraseña())){
+                dispose();  
+                switch(usuarioConsulta.getTipousuario()){
+                    case "Administrador":
+                      admhome= new admPrincipal(usuarioConsulta.getCodpersonal());
+                      admhome.setVisible(true);
+                      
+                       break;
+                    case "Vigilante":
+                       vigHome = new VigPrincipal(usuarioConsulta.getCodpersonal());
+                       vigHome.setVisible(true);
+                       break;
+                    case "Profesor":
+                        proHome = new proPrincipal(usuarioConsulta.getCodpersonal());
+                        proHome.setVisible(true);
+                       break;
+                    default:
+                        funHome = new funPrincipal(usuarioConsulta.getCodpersonal());
+                        funHome.setVisible(true);
+                }
+            
+            }else{
+                JOptionPane.showMessageDialog(this, "la contraseña de usuario no es correcta");
+            }
+        }else{
+             JOptionPane.showMessageDialog(this, "El codigo de usuario no está registrado");
+        }
+    }
+    
+    private void eventoTeclado(){
+        KeyListener tecla = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()== KeyEvent.VK_ENTER ){
+                    if(Contraseña.getText().isEmpty()|| codigoUsuario.getText().isEmpty()){
+                     JOptionPane.showMessageDialog(null,"Debes llenar todos los campos");
+                    }else{
+                        iniciar();
+                    }  
+                }
+            }
+            @Override
+            
+            public void keyReleased(KeyEvent e) {
+            }
+        };
+         Contraseña.addKeyListener(tecla);
+         codigoUsuario.addKeyListener(tecla);
+         btnLogin.addKeyListener(tecla);
+    }
+    
+    private void btnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLoginKeyPressed
+        
+    }//GEN-LAST:event_btnLoginKeyPressed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -212,14 +298,14 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField Contraseña;
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel cerrar;
+    private javax.swing.JTextField codigoUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

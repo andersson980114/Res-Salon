@@ -3,19 +3,48 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista.admin;
+package Vista;
+
+import Logica.usuarioLogica;
+import Modelo.Usuario;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ander
  */
-public class admHomePane extends javax.swing.JPanel {
+public class usuarioHome extends javax.swing.JPanel {
 
     /**
-     * Creates new form admHomePane
+     * Creates new form usuarioHome
      */
-    public admHomePane() {
+    private usuarioLogica usuarioLogica = new usuarioLogica();
+    Usuario usuarioConsulta;
+    
+    public usuarioHome(int codUsuario) {
+        
         initComponents();
+        mostrarDatos(codUsuario);
+        
+    }
+    
+    public void mostrarDatos(int codUsuario){
+        usuarioConsulta = usuarioLogica.consultarUsuario(codUsuario);
+        if(usuarioConsulta!= null){
+            try{
+                Tipo.setText(usuarioConsulta.getTipousuario());
+                Nombre.setText(usuarioConsulta.getNombre());
+                apellido.setText(usuarioConsulta.getApellido());
+                codigo.setText(usuarioConsulta.getCodpersonal().toString());
+                telefono.setText(usuarioConsulta.getTelefono());
+                correo.setText(usuarioConsulta.getCorreo());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+        }
+      
+      
+       
     }
 
     /**
@@ -29,7 +58,7 @@ public class admHomePane extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        Tipo = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         Nombre = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -38,18 +67,19 @@ public class admHomePane extends javax.swing.JPanel {
         correo = new javax.swing.JLabel();
         telefono = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        apellido = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(628, 406));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/recurso/logo univalle2.png"))); // NOI18N
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Segoe UI Historic", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel3.setText("ADMINISTRADOR");
+        Tipo.setBackground(new java.awt.Color(255, 255, 255));
+        Tipo.setFont(new java.awt.Font("Segoe UI Historic", 0, 48)); // NOI18N
+        Tipo.setForeground(new java.awt.Color(255, 0, 0));
+        Tipo.setText("FUNCIONARIO");
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
@@ -79,7 +109,7 @@ public class admHomePane extends javax.swing.JPanel {
         correo.setBackground(new java.awt.Color(255, 255, 255));
         correo.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
         correo.setForeground(new java.awt.Color(0, 0, 0));
-        correo.setText("correoAdministrador@univalle.edu.co");
+        correo.setText("correoFuncionario@univalle.edu.co");
 
         telefono.setBackground(new java.awt.Color(255, 255, 255));
         telefono.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
@@ -91,10 +121,10 @@ public class admHomePane extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(255, 0, 0));
         jLabel9.setText("TELEFONO:");
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("PrimerApellido");
+        apellido.setBackground(new java.awt.Color(255, 255, 255));
+        apellido.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
+        apellido.setForeground(new java.awt.Color(0, 0, 0));
+        apellido.setText("PrimerApellido");
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
@@ -106,24 +136,10 @@ public class admHomePane extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(68, 68, 68)
-                        .addComponent(jLabel3))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(133, 133, 133)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(Nombre))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel10))
-                                .addGap(8, 8, 8))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
@@ -133,28 +149,40 @@ public class admHomePane extends javax.swing.JPanel {
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9)
-                                    .addComponent(telefono))
-                                .addGap(0, 25, Short.MAX_VALUE)))))
-                .addContainerGap(66, Short.MAX_VALUE))
+                                    .addComponent(telefono)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(Nombre))
+                                .addGap(165, 165, 165)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(apellido)
+                                    .addComponent(jLabel6)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(Tipo)))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(Tipo)
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Nombre)
-                    .addComponent(jLabel10))
+                    .addComponent(apellido))
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -177,7 +205,9 @@ public class admHomePane extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,11 +218,11 @@ public class admHomePane extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Nombre;
+    private javax.swing.JLabel Tipo;
+    private javax.swing.JLabel apellido;
     private javax.swing.JLabel codigo;
     private javax.swing.JLabel correo;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

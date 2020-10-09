@@ -5,8 +5,12 @@
  */
 package Vista.admin;
 
+import Logica.usuarioLogica;
+import Modelo.Usuario;
 import Vista.CambiaPanel;
 import Vista.login;
+import Vista.usuarioHome;
+import Vista.usuarioHome;
 import java.awt.Color;
 import javax.swing.JPanel;
 
@@ -14,21 +18,25 @@ import javax.swing.JPanel;
  *
  * @author ander
  */
-public class admPrimcipal extends javax.swing.JFrame {
+public class admPrincipal extends javax.swing.JFrame {
 
-    
-    /**
-     * Creates new form admHome
-     */
-    public admPrimcipal() {
+    private usuarioLogica usuarioLogica = new usuarioLogica();
+    Usuario usuarioConsulta;
+    int codUsuario;
+    public admPrincipal(int codUsuario) {
+        this.codUsuario = codUsuario;
         initComponents();
         this.setResizable(false);
         
         this.setLocationRelativeTo(null);
        this.gstAdmi.setSelected(true);
-       new CambiaPanel(PrincipalPane, new admHomePane());
+       new CambiaPanel(PrincipalPane, new usuarioHome(codUsuario));
     }
-
+    
+    public int cod(){
+        return codUsuario;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,11 +50,8 @@ public class admPrimcipal extends javax.swing.JFrame {
         PrincipalPane = new javax.swing.JPanel();
         cerrar = new javax.swing.JLabel();
         Desplegable = new javax.swing.JPanel();
-        gstProf = new Vista.recurso.RSButtonMetro();
-        gstFun = new Vista.recurso.RSButtonMetro();
         gstProg = new Vista.recurso.RSButtonMetro();
         gstAdmi = new Vista.recurso.RSButtonMetro();
-        gstVigi = new Vista.recurso.RSButtonMetro();
         gstAsign = new Vista.recurso.RSButtonMetro();
         gsdAmb = new Vista.recurso.RSButtonMetro();
         gstSede = new Vista.recurso.RSButtonMetro();
@@ -60,7 +65,7 @@ public class admPrimcipal extends javax.swing.JFrame {
         PeneContent.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 0)));
 
         PrincipalPane.setBackground(new java.awt.Color(255, 255, 255));
-        PrincipalPane.setPreferredSize(new java.awt.Dimension(704, 400));
+        PrincipalPane.setPreferredSize(new java.awt.Dimension(628, 406));
         PrincipalPane.setLayout(new javax.swing.BoxLayout(PrincipalPane, javax.swing.BoxLayout.LINE_AXIS));
 
         cerrar.setBackground(new java.awt.Color(255, 255, 255));
@@ -75,30 +80,18 @@ public class admPrimcipal extends javax.swing.JFrame {
 
         Desplegable.setBackground(new java.awt.Color(255, 0, 0));
 
-        gstProf.setText("Gestionar Profesor");
-        gstProf.setColorHover(new java.awt.Color(255, 255, 255));
-        gstProf.setColorNormal(new java.awt.Color(255, 0, 0));
-        gstProf.setColorPressed(new java.awt.Color(222, 4, 4));
-        gstProf.setColorTextHover(new java.awt.Color(255, 0, 0));
-
-        gstFun.setText("Gestionar Funcionario");
-        gstFun.setColorHover(new java.awt.Color(255, 255, 255));
-        gstFun.setColorNormal(new java.awt.Color(255, 0, 0));
-        gstFun.setColorPressed(new java.awt.Color(222, 4, 4));
-        gstFun.setColorTextHover(new java.awt.Color(255, 0, 0));
-        gstFun.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gstFunActionPerformed(evt);
-            }
-        });
-
         gstProg.setText("Gestionar Programa");
         gstProg.setColorHover(new java.awt.Color(255, 255, 255));
         gstProg.setColorNormal(new java.awt.Color(255, 0, 0));
         gstProg.setColorPressed(new java.awt.Color(222, 4, 4));
         gstProg.setColorTextHover(new java.awt.Color(255, 0, 0));
+        gstProg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gstProgActionPerformed(evt);
+            }
+        });
 
-        gstAdmi.setText("Gestionar Administrador");
+        gstAdmi.setText("Gestionar Usuarios");
         gstAdmi.setColorHover(new java.awt.Color(255, 255, 255));
         gstAdmi.setColorNormal(new java.awt.Color(255, 0, 0));
         gstAdmi.setColorPressed(new java.awt.Color(222, 4, 4));
@@ -109,29 +102,38 @@ public class admPrimcipal extends javax.swing.JFrame {
             }
         });
 
-        gstVigi.setText("Gestionar Vigilante");
-        gstVigi.setColorHover(new java.awt.Color(255, 255, 255));
-        gstVigi.setColorNormal(new java.awt.Color(255, 0, 0));
-        gstVigi.setColorPressed(new java.awt.Color(222, 4, 4));
-        gstVigi.setColorTextHover(new java.awt.Color(255, 0, 0));
-
         gstAsign.setText("Gestionar Asignatura");
         gstAsign.setColorHover(new java.awt.Color(255, 255, 255));
         gstAsign.setColorNormal(new java.awt.Color(255, 0, 0));
         gstAsign.setColorPressed(new java.awt.Color(222, 4, 4));
         gstAsign.setColorTextHover(new java.awt.Color(255, 0, 0));
+        gstAsign.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gstAsignActionPerformed(evt);
+            }
+        });
 
         gsdAmb.setText("Gestionar Ambiente");
         gsdAmb.setColorHover(new java.awt.Color(255, 255, 255));
         gsdAmb.setColorNormal(new java.awt.Color(255, 0, 0));
         gsdAmb.setColorPressed(new java.awt.Color(222, 4, 4));
         gsdAmb.setColorTextHover(new java.awt.Color(255, 0, 0));
+        gsdAmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsdAmbActionPerformed(evt);
+            }
+        });
 
         gstSede.setText("Gestionar Sede");
         gstSede.setColorHover(new java.awt.Color(255, 255, 255));
         gstSede.setColorNormal(new java.awt.Color(255, 0, 0));
         gstSede.setColorPressed(new java.awt.Color(222, 4, 4));
         gstSede.setColorTextHover(new java.awt.Color(255, 0, 0));
+        gstSede.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gstSedeActionPerformed(evt);
+            }
+        });
 
         admHouse.setBackground(new java.awt.Color(255, 0, 0));
         admHouse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/recurso/home.png"))); // NOI18N
@@ -155,9 +157,6 @@ public class admPrimcipal extends javax.swing.JFrame {
         Desplegable.setLayout(DesplegableLayout);
         DesplegableLayout.setHorizontalGroup(
             DesplegableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gstFun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(gstProf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(gstVigi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(gstAsign, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(gstProg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(gsdAmb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -180,12 +179,6 @@ public class admPrimcipal extends javax.swing.JFrame {
                 .addGap(2, 2, 2)
                 .addComponent(gstAdmi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gstProf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gstFun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gstVigi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gstAsign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gstProg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,7 +186,7 @@ public class admPrimcipal extends javax.swing.JFrame {
                 .addComponent(gsdAmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gstSede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout PeneContentLayout = new javax.swing.GroupLayout(PeneContent);
@@ -203,9 +196,9 @@ public class admPrimcipal extends javax.swing.JFrame {
             .addGroup(PeneContentLayout.createSequentialGroup()
                 .addComponent(Desplegable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PrincipalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cerrar))
+                .addComponent(PrincipalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PeneContentLayout.setVerticalGroup(
             PeneContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +209,7 @@ public class admPrimcipal extends javax.swing.JFrame {
                         .addComponent(cerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PeneContentLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 12, Short.MAX_VALUE)
                         .addComponent(PrincipalPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -225,7 +218,7 @@ public class admPrimcipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PeneContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PeneContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +233,8 @@ public class admPrimcipal extends javax.swing.JFrame {
         System.exit(0);
         this.setVisible(false);
     }//GEN-LAST:event_cerrarMouseClicked
-     
+    
+    
     private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
         login Login = new login();
         Login.setVisible(true);
@@ -251,25 +245,29 @@ public class admPrimcipal extends javax.swing.JFrame {
 
     private void gstAdmiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gstAdmiActionPerformed
         
-        new CambiaPanel(PrincipalPane, new gstAminPane());
-        /*
-        if(gstAdmi.isSelected()){
-            gstAdmi.setColorNormal(new Color(255, 255, 255));
-            gstAdmi.setColorTextNormal(new Color(255, 0, 0));
-        }else{
-            gstAdmi.setColorNormal(new Color(255, 0, 0));
-            gstAdmi.setColorTextNormal(new Color(255, 255, 255));
-        }*/
+        new CambiaPanel(PrincipalPane, new gstUsuarios());
         
     }//GEN-LAST:event_gstAdmiActionPerformed
 
     private void admHouseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_admHouseMouseClicked
-      new CambiaPanel(PrincipalPane, new admHomePane());
+      new CambiaPanel(PrincipalPane, new usuarioHome(cod()));
     }//GEN-LAST:event_admHouseMouseClicked
 
-    private void gstFunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gstFunActionPerformed
-        new CambiaPanel(PrincipalPane, new gstFuncPane());
-    }//GEN-LAST:event_gstFunActionPerformed
+    private void gstAsignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gstAsignActionPerformed
+        new CambiaPanel(PrincipalPane, new gstAsignPane());
+    }//GEN-LAST:event_gstAsignActionPerformed
+
+    private void gstProgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gstProgActionPerformed
+        new CambiaPanel(PrincipalPane, new gstProgPane());
+    }//GEN-LAST:event_gstProgActionPerformed
+
+    private void gsdAmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsdAmbActionPerformed
+       new CambiaPanel(PrincipalPane, new gstAmbPane());
+    }//GEN-LAST:event_gsdAmbActionPerformed
+
+    private void gstSedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gstSedeActionPerformed
+        new CambiaPanel(PrincipalPane, new gstSedePane());
+    }//GEN-LAST:event_gstSedeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Desplegable;
@@ -281,10 +279,7 @@ public class admPrimcipal extends javax.swing.JFrame {
     private Vista.recurso.RSButtonMetro gsdAmb;
     private Vista.recurso.RSButtonMetro gstAdmi;
     private Vista.recurso.RSButtonMetro gstAsign;
-    private Vista.recurso.RSButtonMetro gstFun;
-    private Vista.recurso.RSButtonMetro gstProf;
     private Vista.recurso.RSButtonMetro gstProg;
     private Vista.recurso.RSButtonMetro gstSede;
-    private Vista.recurso.RSButtonMetro gstVigi;
     // End of variables declaration//GEN-END:variables
 }
